@@ -1,9 +1,14 @@
 package cl.hcs.jms;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class EnviarConJNDI {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(EnviarConJNDI.class);
+
     public static void main(String[] args) {
-        System.out.println("prueba Enviar con JNDI");
+        LOGGER.info("Hola mundo desde EnviarConJNDI");
     }
 
 }

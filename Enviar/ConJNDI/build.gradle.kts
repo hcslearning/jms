@@ -17,12 +17,8 @@ dependencies {
     implementation(libs.jakarta.jms.api)
     runtimeOnly(libs.activemq.jms.imp)
 
-    // Simple Logging Facade for Java
-    implementation(libs.slf4j.api)
-
-    // Logback
-    implementation(libs.logback.core)
-    implementation(libs.logback.classic)
+    // Simple Logging Facade for Java & Logback
+    implementation(libs.bundles.sl4j.logback)
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
