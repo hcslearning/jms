@@ -16,3 +16,9 @@ project(":EnviarConJNDI").projectDir = file("Enviar/ConJNDI")
 
 include(":EnviarSinJNDI")
 project(":EnviarSinJNDI").projectDir = file("Enviar/SinJNDI")
+
+include(":UtilGeneral")
+project(":UtilGeneral").projectDir = file("Util/General")
+
+include(":UtilJMS")
+project(":UtilJMS").projectDir = file("Util/JMS")

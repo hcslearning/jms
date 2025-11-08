@@ -1,0 +1,13 @@
+= Jakarta Messaging
+
+== Enviar
+
+=== Enviar Mensaje Síncrono
+
+[source, bash]
+----
+$ ./gradlew :EnviarConJNDI:run --args="-u usuario -p passwd -d COLA -m mensaje"
+----
+
+=== Enviar Mensaje Asíncrono
+
