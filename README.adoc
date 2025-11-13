@@ -2,6 +2,26 @@
 
 == Enviar
 
+=== Uso
+
+[source, bash]
+----
+Usage: <main class> [options]
+
+  Options:
+    -a, --asincrono
+      Si el mensaje se debe enviar de manera asíncrona
+      Default: false
+    -m, --mensaje
+      Mensaje a enviar
+  * -p, --password
+      Contraseña del broker
+  * -d, --tipo-destino
+      Valores posibles queue o topic
+  * -u, --usuario
+      Usuario del broker
+----
+
 === Enviar Mensaje Síncrono
 
 [source, bash]
@@ -11,3 +31,16 @@ $ ./gradlew :EnviarConJNDI:run --args="-u usuario -p passwd -d COLA -m mensaje"
 
 === Enviar Mensaje Asíncrono
 
+[source, bash]
+----
+$ ./gradlew :EnviarConJNDI:run --args="-u usuario -p passwd -d COLA -a -m mensaje"
+----
+
+== Recibir
+
+=== Recibir desde Cola
+
+[source, bash]
+----
+$ ./gradlew :RecibirDesdeCola:run --args="-u usuario -p passwd -a"
+----

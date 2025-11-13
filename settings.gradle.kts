@@ -11,12 +11,19 @@ plugins {
 
 rootProject.name = "JakartaMessaging"
 
+// ################ ENVIO #####################
 include(":EnviarConJNDI")
 project(":EnviarConJNDI").projectDir = file("Enviar/ConJNDI")
 
 include(":EnviarSinJNDI")
 project(":EnviarSinJNDI").projectDir = file("Enviar/SinJNDI")
 
+// ################ RECEPCION #####################
+include(":RecibirDesdeCola")
+project(":RecibirDesdeCola").projectDir = file("Recibir/Cola")
+
+
+// ################ UTIL #####################
 include(":UtilGeneral")
 project(":UtilGeneral").projectDir = file("Util/General")
 
