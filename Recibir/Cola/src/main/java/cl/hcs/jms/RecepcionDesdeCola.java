@@ -69,9 +69,28 @@ public class RecepcionDesdeCola {
                         }
                     }
                 } else {
+                    LOGGER.info("Esperando que lleguen mensajes vía MessageListener ...");
+                    messageConsumer.setMessageListener(new MessageListener() {
+                        @Override
+                        public void onMessage(Message m) {
+                            try {
+                                LOGGER.info("Mensaje recibido asíncronamente vía MessageListener: {}", m.getBody(String.class));
+                                m.acknowledge();
+                            } catch (JMSException e) {
+                                LOGGER.error("Error al recibir el mensaje de manera asíncrona con MessageListener.", e);
+                            }
+                        }
+                    });
 
+                    LOGGER.info("Uniéndose al hilo principal para evitar el cierre de la app...");
+                    Thread.currentThread().join();
                 }
+            } catch (InterruptedException ie) {
+                LOGGER.error("Error al unirse al hilo", ie);
             }
+
+
+
         } catch (NamingException | JMSException e) {
             throw new RuntimeException(e);
         } finally {
