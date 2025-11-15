@@ -9,22 +9,26 @@ import org.slf4j.LoggerFactory;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-public class SuscripcionNoDurableNoCompartida {
+public class SuscripcionNoDurableCompartida {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SuscripcionNoDurableNoCompartida.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SuscripcionNoDurableCompartida.class);
 
     public static void main(String[] args) {
         // JCommander - procesa args
-        OpcionesSuscripcionNoDurableNoCompartida opciones = new OpcionesSuscripcionNoDurableNoCompartida();
+        OpcionesSuscripcionNoDurableCompartida opciones = new OpcionesSuscripcionNoDurableCompartida();
         JCommander jCommander = JCommander.newBuilder()
                 .addObject(opciones)
                 .build();
         jCommander.usage();
         jCommander.parse(args);
 
-        new SuscripcionNoDurableNoCompartida().run(
+        if(opciones.mostrarAyuda()) return;
+
+        new SuscripcionNoDurableCompartida().run(
                 opciones.getUsuario(),
                 opciones.getContrasena(),
+                opciones.getClientId(),
+                opciones.getNombreSuscripcion(),
                 opciones.isAsincrono(),
                 opciones.isEsperaHabilitada()
         );
@@ -33,6 +37,8 @@ public class SuscripcionNoDurableNoCompartida {
     public void run(
             String brokerUser,
             String brokerPassword,
+            String clientId,
+            String nombreSuscripcionCompartida,
             boolean esAsincrono,
             boolean esperar
     ) {
@@ -44,12 +50,14 @@ public class SuscripcionNoDurableNoCompartida {
             Destination topico = (Destination) jndi.lookup("topicos/topicoEjemplo");
 
             try (Connection connection = connectionFactory.createConnection(brokerUser, brokerPassword)) {
-                Session sesion = connection.createSession(Session.CLIENT_ACKNOWLEDGE);
-                MessageConsumer messageConsumer = sesion.createConsumer(topico);
-                connection.start();
+                if( clientId != null) connection.setClientID(clientId);
+                LOGGER.info("ClientID: {}", connection.getClientID());
 
-                LOGGER.info("Creando suscripción no durable y no compartida...");
-                sesion.createConsumer(topico);
+                Session sesion = connection.createSession(Session.CLIENT_ACKNOWLEDGE);
+
+                LOGGER.info("Creando suscripción NO Durable y Compartida llamada: {}", nombreSuscripcionCompartida);
+                MessageConsumer messageConsumer = sesion.createSharedConsumer((Topic) topico, nombreSuscripcionCompartida);
+                connection.start();
 
                 // Se usa clase utilitaria para recibir mensaje, porque siempre es igual
                 // usando alguno de los metodos receive(), receiveNoWait()

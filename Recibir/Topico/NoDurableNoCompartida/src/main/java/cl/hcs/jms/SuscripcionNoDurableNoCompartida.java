@@ -43,13 +43,13 @@ public class SuscripcionNoDurableNoCompartida {
 
             Destination topico = (Destination) jndi.lookup("topicos/topicoEjemplo");
 
-            try (Connection connection = connectionFactory.createConnection(brokerUser, brokerPassword)) {
-                Session sesion = connection.createSession(Session.CLIENT_ACKNOWLEDGE);
-                MessageConsumer messageConsumer = sesion.createConsumer(topico);
-                connection.start();
+            try (Connection conexion = connectionFactory.createConnection(brokerUser, brokerPassword)) {
+                Session sesion = conexion.createSession(Session.CLIENT_ACKNOWLEDGE);
 
                 LOGGER.info("Creando suscripción no durable y no compartida...");
-                sesion.createConsumer(topico);
+                MessageConsumer messageConsumer = sesion.createConsumer(topico);
+
+                conexion.start();
 
                 // Se usa clase utilitaria para recibir mensaje, porque siempre es igual
                 // usando alguno de los metodos receive(), receiveNoWait()
