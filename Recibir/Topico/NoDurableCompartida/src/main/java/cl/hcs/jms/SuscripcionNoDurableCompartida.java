@@ -22,15 +22,15 @@ public class SuscripcionNoDurableCompartida {
         jCommander.usage();
         jCommander.parse(args);
 
-        if(opciones.mostrarAyuda()) return;
+        if(opciones.getBase().mostrarAyuda()) return;
 
         new SuscripcionNoDurableCompartida().run(
-                opciones.getUsuario(),
-                opciones.getContrasena(),
-                opciones.getClientId(),
-                opciones.getNombreSuscripcion(),
-                opciones.isAsincrono(),
-                opciones.isEsperaHabilitada()
+                opciones.getJmsBase().getUsuario(),
+                opciones.getJmsBase().getContrasena(),
+                opciones.getJmsBase().getClientId(),
+                opciones.getSuscripcion().getNombreSuscripcion(),
+                opciones.getRecepcion().isAsincrono(),
+                opciones.getRecepcion().isEsperaHabilitada()
         );
     }
 

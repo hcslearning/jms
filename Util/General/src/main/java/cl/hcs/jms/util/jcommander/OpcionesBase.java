@@ -7,5 +7,7 @@ public class OpcionesBase {
     @Parameter(names = {"-h", "--help"}, description = "Mostrar ayuda")
     private boolean mostrarAyuda;
 
-
+    public boolean mostrarAyuda() {
+        return mostrarAyuda;
+    }
 }
