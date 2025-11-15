@@ -13,7 +13,11 @@ repositories {
 }
 
 dependencies {
+    // Jakarta Messaging 3.1
+    api(libs.jakarta.jms.api)
 
+    // Simple Logging Facade for Java (SLF4J) & Logback
+    implementation(libs.bundles.sl4j.logback)
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

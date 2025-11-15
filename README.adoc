@@ -44,3 +44,10 @@ $ ./gradlew :EnviarConJNDI:run --args="-u usuario -p passwd -d COLA -a -m mensaj
 ----
 $ ./gradlew :RecibirDesdeCola:run --args="-u usuario -p passwd -a"
 ----
+
+=== Recibir desde Topico
+
+[source, bash]
+----
+$ ./gradlew :SuscripcionNoDurableNoCompartida:run --args="-u usuario -p passwd -a"
+----

@@ -2,7 +2,7 @@ package cl.hcs.jms;
 
 import com.beust.jcommander.Parameter;
 
-public class Opciones {
+public class OpcionesEnviarConJNDI {
 
     @Parameter(names = {"-u", "--usuario"}, required = true, description = "Usuario del broker")
     private String usuario;
@@ -10,12 +10,12 @@ public class Opciones {
     private String contrasena;
     @Parameter(names = {"-a", "--asincrono"}, description = "Si el mensaje se debe enviar de manera asíncrona")
     private boolean asincrono;
-    @Parameter(names = {"-d", "--tipo-destino"}, description = "Valores posibles queue o topic", required = true)
+    @Parameter(names = {"-d", "--tipo-destino"}, description = "Valores posibles COLA o TOPICO", required = true)
     private String tipoDestino;
     @Parameter(names = {"-m", "--mensaje"}, required = false, description = "Mensaje a enviar")
     private String mensaje;
 
-    public Opciones() {
+    public OpcionesEnviarConJNDI() {
     }
 
     public String getUsuario() {

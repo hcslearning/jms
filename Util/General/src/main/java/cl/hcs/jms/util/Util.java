@@ -1,4 +1,4 @@
-package cl.hcs.util;
+package cl.hcs.jms.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

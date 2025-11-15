@@ -9,10 +9,9 @@ import org.slf4j.LoggerFactory;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import java.util.Objects;
-import cl.hcs.util.TipoDestino;
+import cl.hcs.jms.util.TipoDestino;
 
-import static cl.hcs.util.Util.*;
+import static cl.hcs.jms.util.Util.generarStringRandom;
 
 public class EnviarConJNDI {
 
@@ -21,7 +20,7 @@ public class EnviarConJNDI {
     public static void main(String[] args) {
         try {
             // JCommander - procesa args
-            Opciones opciones = new Opciones();
+            OpcionesEnviarConJNDI opciones = new OpcionesEnviarConJNDI();
             JCommander jCommander = JCommander.newBuilder()
                     .addObject(opciones)
                     .build();
@@ -35,7 +34,7 @@ public class EnviarConJNDI {
             new EnviarConJNDI().run(
                     opciones.getUsuario(),
                     opciones.getContrasena(),
-                    Objects.equals(opciones.getTipoDestino(), "topico") ? TipoDestino.TOPICO : TipoDestino.COLA,
+                    opciones.getTipoDestino().equalsIgnoreCase("cola") ? TipoDestino.COLA : TipoDestino.TOPICO,
                     opciones.getMensaje(),
                     opciones.isAsincrono()
             );
@@ -75,8 +74,10 @@ public class EnviarConJNDI {
 
             Destination destino;
             if(tipoDestino.equals(TipoDestino.TOPICO)) {
+                LOGGER.info("Configurando destino de tipo TOPICO");
                 destino = (Destination) jndi.lookup("topicos/topicoEjemplo");
             } else {
+                LOGGER.info("Configurando destino de tipo COLA");
                 destino = (Destination) jndi.lookup("colas/colaEjemplo");
             }
 
