@@ -27,6 +27,8 @@ public class EnviarConJNDI {
             jCommander.usage();
             jCommander.parse(args);
 
+            if(opciones.mostrarAyuda()) { return; }
+
             // envía mensaje
             if(opciones.getMensaje() == null || opciones.getMensaje().isBlank()) {
                 opciones.setMensaje( generarStringRandom()  );

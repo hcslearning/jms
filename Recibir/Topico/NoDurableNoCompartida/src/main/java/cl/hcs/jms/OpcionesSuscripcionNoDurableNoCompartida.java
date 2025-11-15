@@ -2,22 +2,20 @@ package cl.hcs.jms;
 
 import com.beust.jcommander.Parameter;
 
-public class OpcionesEnviarConJNDI {
+public class OpcionesSuscripcionNoDurableNoCompartida {
 
-    @Parameter(names = {"-h", "--help"}, description = "Muestra la ayuda")
+    @Parameter(names = {"-h", "--help"}, description = "Mostrar ayuda")
     private boolean mostrarAyuda;
     @Parameter(names = {"-u", "--usuario"}, required = true, description = "Usuario del broker")
     private String usuario;
     @Parameter(names = {"-p", "--password"}, required = true, description = "Contraseña del broker")
     private String contrasena;
-    @Parameter(names = {"-a", "--asincrono"}, description = "Si el mensaje se debe enviar de manera asíncrona")
+    @Parameter(names = {"-a", "--asincrono"}, description = "Si los mensajes se reciben a través de un listener asíncrono")
     private boolean asincrono;
-    @Parameter(names = {"-d", "--tipo-destino"}, description = "Valores posibles COLA o TOPICO", required = true)
-    private String tipoDestino;
-    @Parameter(names = {"-m", "--mensaje"}, required = false, description = "Mensaje a enviar")
-    private String mensaje;
+    @Parameter(names = {"-e", "--esperar"}, description = "Si en el modo síncrono se debe esperar hasta que llegue al menos 1 mensaje")
+    private boolean esperaHabilitada;
 
-    public OpcionesEnviarConJNDI() {
+    public OpcionesSuscripcionNoDurableNoCompartida() {
     }
 
     public String getUsuario() {
@@ -44,24 +42,16 @@ public class OpcionesEnviarConJNDI {
         this.asincrono = asincrono;
     }
 
-    public String getTipoDestino() {
-        return tipoDestino;
+    public boolean isEsperaHabilitada() {
+        return esperaHabilitada;
     }
 
-    public void setTipoDestino(String tipoDestino) {
-        this.tipoDestino = tipoDestino;
+    public void setEsperaHabilitada(boolean esperaHabilitada) {
+        this.esperaHabilitada = esperaHabilitada;
     }
 
-    public String getMensaje() {
-        return mensaje;
-    }
-
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
-
-    public boolean isMostrarAyuda() { return mostrarAyuda; }
-    public boolean mostrarAyuda() { return mostrarAyuda; }
+    public boolean isMostrarAyuda() {return mostrarAyuda;}
+    public boolean mostrarAyuda() {return mostrarAyuda;}
 
     public void setMostrarAyuda(boolean mostrarAyuda) {
         this.mostrarAyuda = mostrarAyuda;

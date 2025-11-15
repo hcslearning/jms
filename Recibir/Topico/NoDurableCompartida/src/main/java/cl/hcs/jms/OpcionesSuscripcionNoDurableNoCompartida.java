@@ -4,6 +4,8 @@ import com.beust.jcommander.Parameter;
 
 public class OpcionesSuscripcionNoDurableNoCompartida {
 
+    @Parameter(names = {"-h", "--help"}, description = "Mostrar ayuda")
+    private boolean mostrarAyuda;
     @Parameter(names = {"-u", "--usuario"}, required = true, description = "Usuario del broker")
     private String usuario;
     @Parameter(names = {"-p", "--password"}, required = true, description = "Contraseña del broker")
@@ -46,5 +48,12 @@ public class OpcionesSuscripcionNoDurableNoCompartida {
 
     public void setEsperaHabilitada(boolean esperaHabilitada) {
         this.esperaHabilitada = esperaHabilitada;
+    }
+
+    public boolean isMostrarAyuda() {return mostrarAyuda;}
+    public boolean mostrarAyuda() {return mostrarAyuda;}
+
+    public void setMostrarAyuda(boolean mostrarAyuda) {
+        this.mostrarAyuda = mostrarAyuda;
     }
 }
