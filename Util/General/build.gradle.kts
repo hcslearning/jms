@@ -13,7 +13,8 @@ repositories {
 }
 
 dependencies {
-
+    // JCommander
+    implementation(libs.jcommander)
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
