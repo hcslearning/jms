@@ -9,13 +9,13 @@ import org.slf4j.LoggerFactory;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-public class SuscripcionNoDurableCompartida {
+public class Suscripcion {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SuscripcionNoDurableCompartida.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Suscripcion.class);
 
     public static void main(String[] args) {
         // JCommander - procesa args
-        OpcionesSuscripcionNoDurableCompartida opciones = new OpcionesSuscripcionNoDurableCompartida();
+        OpcionesSuscripcion opciones = new OpcionesSuscripcion();
         JCommander jCommander = JCommander.newBuilder()
                 .addObject(opciones)
                 .build();
@@ -24,11 +24,13 @@ public class SuscripcionNoDurableCompartida {
 
         if(opciones.getBase().mostrarAyuda()) return;
 
-        new SuscripcionNoDurableCompartida().run(
+        new Suscripcion().run(
                 opciones.getJmsBase().getUsuario(),
                 opciones.getJmsBase().getContrasena(),
                 opciones.getJmsBase().getClientId(),
                 opciones.getSuscripcion().getNombreSuscripcion(),
+                opciones.getSuscripcion().isDurable(),
+                opciones.getSuscripcion().isCompartida(),
                 opciones.getRecepcion().isAsincrono(),
                 opciones.getRecepcion().isEsperaHabilitada()
         );
@@ -38,7 +40,9 @@ public class SuscripcionNoDurableCompartida {
             String brokerUser,
             String brokerPassword,
             String clientId,
-            String nombreSuscripcionCompartida,
+            String nombreSuscripcion,
+            boolean esDurable,
+            boolean esCompartida,
             boolean esAsincrono,
             boolean esperar
     ) {
@@ -47,7 +51,7 @@ public class SuscripcionNoDurableCompartida {
             jndi = new InitialContext();
             ConnectionFactory connectionFactory = (ConnectionFactory) jndi.lookup("connFactoryBroker1");
 
-            Destination topico = (Destination) jndi.lookup("topicos/topicoEjemplo");
+            Topic topico = (Topic) jndi.lookup("topicos/topicoEjemplo");
 
             try (Connection connection = connectionFactory.createConnection(brokerUser, brokerPassword)) {
                 if( clientId != null) connection.setClientID(clientId);
@@ -55,8 +59,26 @@ public class SuscripcionNoDurableCompartida {
 
                 Session sesion = connection.createSession(Session.CLIENT_ACKNOWLEDGE);
 
-                LOGGER.info("Creando suscripción NO Durable y Compartida llamada: {}", nombreSuscripcionCompartida);
-                MessageConsumer messageConsumer = sesion.createSharedConsumer((Topic) topico, nombreSuscripcionCompartida);
+                MessageConsumer messageConsumer = null;
+                if(esDurable) {
+                    if( esCompartida ) {
+                        LOGGER.info("Creando suscripción Durable y Compartida llamada: {}", nombreSuscripcion);
+                        messageConsumer = sesion.createSharedDurableConsumer(topico, nombreSuscripcion);
+                    } else {
+                        LOGGER.info("Creando suscripción Durable y NO Compartida ...");
+                        messageConsumer = sesion.createDurableConsumer(topico, nombreSuscripcion);
+                    }
+                } else {
+                    if( esCompartida ) {
+                        LOGGER.info("Creando suscripción NO Durable y Compartida llamada: {}", nombreSuscripcion);
+                        messageConsumer = sesion.createSharedConsumer(topico, nombreSuscripcion);
+                    } else {
+                        LOGGER.info("Creando suscripción NO Durable y NO Compartida ...");
+                        messageConsumer = sesion.createConsumer(topico);
+                    }
+                }
+
+                // Se inicia conexión para recibir mensajes (necesario en API Clásica)
                 connection.start();
 
                 // Se usa clase utilitaria para recibir mensaje, porque siempre es igual

@@ -14,18 +14,20 @@ public class RecepcionDesdeCola {
 
     public static void main(String[] args) {
         // JCommander - procesa args
-        Opciones opciones = new Opciones();
+        OpcionesCola opciones = new OpcionesCola();
         JCommander jCommander = JCommander.newBuilder()
                 .addObject(opciones)
                 .build();
         jCommander.usage();
         jCommander.parse(args);
 
+        if(opciones.getBase().mostrarAyuda()) return;
+
         new RecepcionDesdeCola().run(
-                opciones.getUsuario(),
-                opciones.getContrasena(),
-                opciones.isAsincrono(),
-                opciones.isEsperaHabilitada()
+                opciones.getJms().getUsuario(),
+                opciones.getJms().getContrasena(),
+                opciones.getRecepcion().isAsincrono(),
+                opciones.getRecepcion().isEsperaHabilitada()
         );
     }
 
@@ -59,8 +61,10 @@ public class RecepcionDesdeCola {
                     }
 
                     if( mensaje != null) {
-                        // necesario para notificar como mensaje procesado
+                        // necesario para notificar al broker que se procesó el mensaje
                         mensaje.acknowledge();
+                        LOGGER.info("Mensaje reconocido como procesado (acknowledge)");
+
                         // muestra mensaje en consola
                         LOGGER.info("Mensaje recibido síncronamente: {}", mensaje.getBody(String.class));
                     } else {
@@ -88,9 +92,6 @@ public class RecepcionDesdeCola {
             } catch (InterruptedException ie) {
                 LOGGER.error("Error al unirse al hilo", ie);
             }
-
-
-
         } catch (NamingException | JMSException e) {
             throw new RuntimeException(e);
         } finally {

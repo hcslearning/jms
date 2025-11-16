@@ -2,17 +2,13 @@ package cl.hcs.jms;
 
 import cl.hcs.jms.util.jcommander.OpcionesBase;
 import cl.hcs.jms.util.jcommander.OpcionesJmsBase;
-import cl.hcs.jms.util.jcommander.OpcionesJmsEnvio;
-import com.beust.jcommander.ParametersDelegate;
+import cl.hcs.jms.util.jcommander.OpcionesJmsRecepcion;
 
-public class OpcionesEnviarConJNDI {
+public class OpcionesCola {
 
-    @ParametersDelegate
     private final OpcionesBase base = new OpcionesBase();
-    @ParametersDelegate
     private final OpcionesJmsBase jms = new OpcionesJmsBase();
-    @ParametersDelegate
-    private final OpcionesJmsEnvio envio = new OpcionesJmsEnvio();
+    private final OpcionesJmsRecepcion recepcion = new OpcionesJmsRecepcion();
 
     public OpcionesBase getBase() {
         return base;
@@ -22,7 +18,7 @@ public class OpcionesEnviarConJNDI {
         return jms;
     }
 
-    public OpcionesJmsEnvio getEnvio() {
-        return envio;
+    public OpcionesJmsRecepcion getRecepcion() {
+        return recepcion;
     }
 }

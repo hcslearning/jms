@@ -10,14 +10,6 @@ public class OpcionesJmsRecepcion {
     @Parameter(names = {"-e", "--esperar"}, description = "Si en el modo síncrono se debe esperar hasta que llegue al menos 1 mensaje")
     private boolean esperaHabilitada;
 
-    public OpcionesJmsRecepcion() {}
-
-    public String getContrasena() { return contrasena; }
-    public void setContrasena(String contrasena) { this.contrasena = contrasena; }
-
     public boolean isAsincrono() { return asincrono; }
-    public void setAsincrono(boolean asincrono) { this.asincrono = asincrono; }
-
     public boolean isEsperaHabilitada() { return esperaHabilitada; }
-    public void setEsperaHabilitada(boolean esperaHabilitada) { this.esperaHabilitada = esperaHabilitada; }
 }

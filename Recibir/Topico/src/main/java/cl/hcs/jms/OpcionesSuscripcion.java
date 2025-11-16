@@ -6,19 +6,19 @@ import cl.hcs.jms.util.jcommander.OpcionesJmsRecepcion;
 import cl.hcs.jms.util.jcommander.OpcionesJmsSuscripcion;
 import com.beust.jcommander.ParametersDelegate;
 
-public class OpcionesSuscripcionNoDurableCompartida {
+public class OpcionesSuscripcion {
 
     @ParametersDelegate
-    private OpcionesBase base = new OpcionesBase();
+    private final OpcionesBase base = new OpcionesBase();
 
     @ParametersDelegate
-    private OpcionesJmsBase jmsBase = new OpcionesJmsBase();
+    private final OpcionesJmsBase jmsBase = new OpcionesJmsBase();
 
     @ParametersDelegate
-    private OpcionesJmsRecepcion recepcion = new OpcionesJmsRecepcion();
+    private final OpcionesJmsRecepcion recepcion = new OpcionesJmsRecepcion();
 
     @ParametersDelegate
-    private OpcionesJmsSuscripcion suscripcion = new OpcionesJmsSuscripcion();
+    private final OpcionesJmsSuscripcion suscripcion = new OpcionesJmsSuscripcion();
 
     public OpcionesBase getBase() {
         return base;

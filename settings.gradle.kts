@@ -19,17 +19,12 @@ include(":EnviarSinJNDI")
 project(":EnviarSinJNDI").projectDir = file("Enviar/SinJNDI")
 
 
-// ################ RECEPCION COLA #####################
+// ################ RECEPCION #####################
 include(":RecibirDesdeCola")
 project(":RecibirDesdeCola").projectDir = file("Recibir/Cola")
 
-
-// ################ RECEPCION TOPICO #####################
-include(":SuscripcionNoDurableNoCompartida")
-project(":SuscripcionNoDurableNoCompartida").projectDir = file("Recibir/Topico/NoDurableNoCompartida")
-
-include(":SuscripcionNoDurableCompartida")
-project(":SuscripcionNoDurableCompartida").projectDir = file("Recibir/Topico/NoDurableCompartida")
+include(":Suscribir")
+project(":Suscribir").projectDir = file("Recibir/Topico")
 
 
 // ################ UTIL #####################

@@ -27,18 +27,18 @@ public class EnviarConJNDI {
             jCommander.usage();
             jCommander.parse(args);
 
-            if(opciones.mostrarAyuda()) { return; }
+            if(opciones.getBase().mostrarAyuda()) { return; }
 
             // envía mensaje
-            if(opciones.getMensaje() == null || opciones.getMensaje().isBlank()) {
-                opciones.setMensaje( generarStringRandom()  );
+            if(opciones.getEnvio().getMensaje() == null || opciones.getEnvio().getMensaje().isBlank()) {
+                opciones.getEnvio().setMensaje( generarStringRandom()  );
             }
             new EnviarConJNDI().run(
-                    opciones.getUsuario(),
-                    opciones.getContrasena(),
-                    opciones.getTipoDestino().equalsIgnoreCase("cola") ? TipoDestino.COLA : TipoDestino.TOPICO,
-                    opciones.getMensaje(),
-                    opciones.isAsincrono()
+                    opciones.getJms().getUsuario(),
+                    opciones.getJms().getContrasena(),
+                    opciones.getEnvio().getTipoDestino().equalsIgnoreCase("cola") ? TipoDestino.COLA : TipoDestino.TOPICO,
+                    opciones.getEnvio().getMensaje(),
+                    opciones.getEnvio().isAsincrono()
             );
         } catch (ParameterException pe) {
             LOGGER.error(pe.getMessage());
