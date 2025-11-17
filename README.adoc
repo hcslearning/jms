@@ -2,6 +2,36 @@
 
 Proyecto sobre Jakarta Messaging 3.1 que incluye varios subproyectos diseñados para ejemplificar el envío y la recepción de mensajes utilizando ActiveMQ Artemis como broker.
 
+== ActiveMQ Artemis
+
+Ejemplo de configuración del archivo broker.xml:
+
+[source, xml]
+----
+<addresses>
+         <address name="DLQ">
+            <anycast>
+               <queue name="DLQ" />
+            </anycast>
+         </address>
+         <address name="ExpiryQueue">
+            <anycast>
+               <queue name="ExpiryQueue" />
+            </anycast>
+         </address>
+         
+         <address name="cola_ejemplo">
+            <anycast>
+               <queue name="cola_ejemplo" />
+            </anycast>
+         </address>         
+	 <address name="topico_ejemplo">
+	    <multicast />
+         </address>
+</addresses>
+
+----
+
 == Proyectos
 
 [source, bash]
