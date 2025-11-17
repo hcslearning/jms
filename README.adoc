@@ -1,53 +1,208 @@
 = Jakarta Messaging
 
-== Enviar
+Proyecto sobre Jakarta Messaging 3.1 que incluye varios subproyectos diseñados para ejemplificar el envío y la recepción de mensajes utilizando ActiveMQ Artemis como broker.
 
-=== Uso
+== Proyectos
 
 [source, bash]
 ----
+
+$ ./gradlew projects
+
+Root project 'JakartaMessaging'
++--- Project ':EnviarConJNDI'
++--- Project ':EnviarSinJNDI'
++--- Project ':RecibirDesdeCola'
++--- Project ':Suscribir'
++--- Project ':UtilGeneral'
+\--- Project ':UtilJMS'
+
+----
+
+== Opciones Transversales
+
+=== Ayuda
+
+Ejemplo para visualizar la ayuda:
+
+[source, bash]
+----
+$ ./gradlew :Subproyecto:run --args="-h"
+
+Usage: <main class> [options]
+
+  Options:
+    -i, --clientId
+      Client ID de la conexión
+    -h, --help
+      Mostrar ayuda
+      Default: false
+  * -p, --password
+      Contraseña del broker
+  * -u, --usuario
+      Usuario del broker
+
+----
+
+
+== Enviar Mensaje
+
+=== Con JNDI
+
+==== Ayuda
+
+[source, bash]
+----
+> Task :EnviarConJNDI:run
 Usage: <main class> [options]
 
   Options:
     -a, --asincrono
       Si el mensaje se debe enviar de manera asíncrona
       Default: false
+    -i, --clientId
+      Client ID de la conexión
+    -h, --help
+      Mostrar ayuda
+      Default: false
     -m, --mensaje
       Mensaje a enviar
   * -p, --password
       Contraseña del broker
   * -d, --tipo-destino
-      Valores posibles queue o topic
+      Valores posibles COLA o TOPICO
   * -u, --usuario
       Usuario del broker
 ----
 
-=== Enviar Mensaje Síncrono
+==== Ejemplo
+[source, bash]
+----
+$ ./gradlew :EnviarConJNDI:run --args="-u user -p mypass123 -d COLA -m mimensaje"
+
+----
+
+=== Sin JNDI
+
+==== Ayuda
 
 [source, bash]
 ----
-$ ./gradlew :EnviarConJNDI:run --args="-u usuario -p passwd -d COLA -m mensaje"
+> Task :EnviarSinJNDI:run
+Usage: <main class> [options]
+
+  Options:
+    -a, --asincrono
+      Si el mensaje se debe enviar de manera asíncrona
+      Default: false
+    -i, --clientId
+      Client ID de la conexión
+    -h, --help
+      Mostrar ayuda
+      Default: false
+  * -s, --host
+      Dirección IP o dominio del broker, ejemplo, localhost
+    -m, --mensaje
+      Mensaje a enviar
+  * -n, --nombre-destino
+      Nombre del destino del mensaje (cola o tópico) hacia donde enviar el
+      mensaje
+  * -p, --password
+      Contraseña del broker
+  * --port
+      Puerto para conectar con el broker, ejemplo, 61616
+      Default: 0
+  * -d, --tipo-destino
+      Valores posibles COLA o TOPICO
+  * -u, --usuario
+      Usuario del broker
 ----
 
-=== Enviar Mensaje Asíncrono
+==== Ejemplo
 
 [source, bash]
 ----
-$ ./gradlew :EnviarConJNDI:run --args="-u usuario -p passwd -d COLA -a -m mensaje"
+$ ./gradlew :EnviarSinJNDI:run --args="-u usuario -p myPass123 -s localhost --port 61616 -d COLA -n cola_ejemplo -m miMensaje"
 ----
 
-== Recibir
+== Recibir Mensajes
 
-=== Recibir desde Cola
+=== Desde Colas
+
+==== Ayuda
 
 [source, bash]
 ----
-$ ./gradlew :RecibirDesdeCola:run --args="-u usuario -p passwd -a"
+> Task :RecibirDesdeCola:run
+Usage: <main class> [options]
+
+  Options:
+    -a, --asincrono
+      Si los mensajes se reciben a través de un listener asíncrono
+      Default: false
+    -i, --clientId
+      Client ID de la conexión
+    -e, --esperar
+      Si en el modo síncrono se debe esperar hasta que llegue al menos 1
+      mensaje
+      Default: false
+    -h, --help
+      Mostrar ayuda
+      Default: false
+  * -p, --password
+      Contraseña del broker
+  * -u, --usuario
+      Usuario del broker
+
 ----
 
-=== Recibir desde Topico
+==== Ejemplo
 
 [source, bash]
 ----
-$ ./gradlew :SuscripcionNoDurableNoCompartida:run --args="-u usuario -p passwd -a"
+$ ./gradlew :RecibirDesdeCola:run --args="-u myuser -p mypasswd -a"
+----
+
+=== Suscripción a Tópicos
+
+==== Ayuda
+
+[source, bash]
+----
+> Task :Suscribir:run
+Usage: <main class> [options]
+
+  Options:
+    -a, --asincrono
+      Si los mensajes se reciben a través de un listener asíncrono
+      Default: false
+    -i, --clientId
+      Client ID de la conexión
+    -c, --compartida
+      Si la suscripcion debe ser compartida
+      Default: false
+    -d, --durable
+      Si la suscripcion debe ser durable
+      Default: false
+    -e, --esperar
+      Si en el modo síncrono se debe esperar hasta que llegue al menos 1
+      mensaje
+      Default: false
+    -h, --help
+      Mostrar ayuda
+      Default: false
+  * -n, --nombre
+      Nombre de la suscripción
+  * -p, --password
+      Contraseña del broker
+  * -u, --usuario
+      Usuario del broker
+
+----
+
+==== Ejemplo
+
+[source, bash]
+----
+$ ./gradlew :Suscribir:run --args="-u user -p myPass -i cid1 -a -d -n mySubs"
 ----

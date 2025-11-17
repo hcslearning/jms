@@ -155,7 +155,7 @@ public class EnviarSinJNDI {
                     );
                 }
             }
-        } catch (NamingException | JMSException e) {
+        } catch (JMSException e) {
             throw new RuntimeException(e);
         }
     }

@@ -18,6 +18,7 @@ public class Recepcion {
     ) throws JMSException, InterruptedException {
         Message mensaje = null;
         if( !esAsincrono) {
+            LOGGER.info("Esperando recepción en modo síncrono ...");
             if( esperar ) {
                 LOGGER.info("Esperando que llegue un mensaje...");
                 mensaje = messageConsumer.receive();// bloquea hasta que llegue un mensaje

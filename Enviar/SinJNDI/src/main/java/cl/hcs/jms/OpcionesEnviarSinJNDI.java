@@ -8,9 +8,9 @@ import com.beust.jcommander.ParametersDelegate;
 
 public class OpcionesEnviarSinJNDI {
 
-    @Parameter(names = {"-h", "--host"}, required = true, description = "Dirección IP o dominio del broker, ejemplo, localhost")
+    @Parameter(names = {"-s", "--host"}, required = true, description = "Dirección IP o dominio del broker, ejemplo, localhost")
     private String host;
-    @Parameter(names = {"-p", "--port"}, required = true, description = "Puerto para conectar con el broker, ejemplo, 61616")
+    @Parameter(names = {"--port"}, required = true, description = "Puerto para conectar con el broker, ejemplo, 61616")
     private int port;
     @Parameter(names = {"-n", "--nombre-destino"}, required = true, description = "Nombre del destino del mensaje (cola o tópico) hacia donde enviar el mensaje")
     private String nombreDestino;
